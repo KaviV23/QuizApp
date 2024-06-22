@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -23,7 +24,7 @@ private var mQuestionsList: ArrayList<Question>? = null
 private var mSelectedOptionPosition: Int = 0
 private var mCorrectAnswers: Int = 0
 private var mUserName: String? = null
-
+private var mRemainingCheats: Int = 3
 
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
     private lateinit var tvQuestion: TextView
@@ -34,6 +35,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
     private lateinit var tvOptionTwo: TextView
     private lateinit var tvOptionThree: TextView
     private lateinit var tvOptionFour: TextView
+    private lateinit var tvBack: TextView
+    private lateinit var tvCheat: TextView
     private lateinit var btnSubmit: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,16 +53,16 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
         tvOptionTwo = findViewById(R.id.tv_option_two)
         tvOptionThree = findViewById(R.id.tv_option_three)
         tvOptionFour = findViewById(R.id.tv_option_four)
+        tvBack = findViewById(R.id.tv_back)
+        tvCheat = findViewById(R.id.tv_cheat)
         btnSubmit = findViewById(R.id.btn_submit)
 
         mQuestionsList = Constants.getQuestions()
 
         setQuestion()
 
-        tvOptionOne.setOnClickListener(this)
-        tvOptionTwo.setOnClickListener(this)
-        tvOptionThree.setOnClickListener(this)
-        tvOptionFour.setOnClickListener(this)
+        tvBack.setOnClickListener(this)
+        tvCheat.setOnClickListener(this)
         btnSubmit.setOnClickListener(this)
     }
 
@@ -67,6 +70,24 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
         val question = mQuestionsList!![mCurrentPosition-1]
 
         defaultOptionView()
+
+        if(question.selectedAnswer != 0) {
+            tvCheat.setOnClickListener(null)
+            if(question!!.correctAnswer != question.selectedAnswer) {
+                answerView(question.selectedAnswer, R.drawable.wrong_option_border_bg)
+            }
+            answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
+            tvOptionOne.setOnClickListener(null)
+            tvOptionTwo.setOnClickListener(null)
+            tvOptionThree.setOnClickListener(null)
+            tvOptionFour.setOnClickListener(null)
+        } else {
+            tvCheat.setOnClickListener(this)
+            tvOptionOne.setOnClickListener(this)
+            tvOptionTwo.setOnClickListener(this)
+            tvOptionThree.setOnClickListener(this)
+            tvOptionFour.setOnClickListener(this)
+        }
 
         if(mCurrentPosition == mQuestionsList!!.size) {
             btnSubmit.text = "Finish"
@@ -125,6 +146,29 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
         }
     }
 
+    private fun cheat() {
+        val question = mQuestionsList?.get(mCurrentPosition -1)
+        if(mRemainingCheats != 0) {
+            mCorrectAnswers++
+            mRemainingCheats--
+            question!!.selectedAnswer = question.correctAnswer
+            answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
+            btnSubmit.text = "Next Question"
+            mSelectedOptionPosition = 0
+
+            tvOptionOne.setOnClickListener(null)
+            tvOptionTwo.setOnClickListener(null)
+            tvOptionThree.setOnClickListener(null)
+            tvOptionFour.setOnClickListener(null)
+
+            tvCheat.text = "Cheat ($mRemainingCheats/3)"
+            tvCheat.setOnClickListener(null)
+        } else {
+            Toast.makeText(this, "All Cheats Used", Toast.LENGTH_SHORT).show()
+            tvCheat.setOnClickListener(null)
+        }
+    }
+
     override fun onClick(v: View?) {
         when(v?.id) {
             R.id.tv_option_one -> {
@@ -139,6 +183,17 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
             R.id.tv_option_four-> {
                 selectedOptionView(tvOptionFour, 4)
             }
+            R.id.tv_back->{
+                if(mCurrentPosition > 1) {
+                    mSelectedOptionPosition = 0
+                    mCurrentPosition --
+                    setQuestion()
+                    btnSubmit.text = "Next Question"
+                }
+            }
+            R.id.tv_cheat-> {
+                cheat()
+            }
             R.id.btn_submit-> {
                 if(mSelectedOptionPosition == 0) {
                     mCurrentPosition ++
@@ -152,6 +207,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
                             intent.putExtra(Constants.USER_NAME, mUserName)
                             intent.putExtra(Constants.CORRECT_ANSWERS, mCorrectAnswers)
                             intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionsList!!.size)
+                            intent.putExtra(Constants.CHEATS_USED, 3-mRemainingCheats)
                             startActivity(intent)
                         }
                     }
@@ -162,7 +218,13 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
                     } else {
                         mCorrectAnswers++
                     }
+                    question.selectedAnswer = mSelectedOptionPosition
                     answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
+                    tvCheat.setOnClickListener(null)
+                    tvOptionOne.setOnClickListener(null)
+                    tvOptionTwo.setOnClickListener(null)
+                    tvOptionThree.setOnClickListener(null)
+                    tvOptionFour.setOnClickListener(null)
 
                     if(mCurrentPosition == mQuestionsList!!.size) {
                         btnSubmit.text = "Finish"
@@ -172,6 +234,39 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
                     mSelectedOptionPosition = 0
                 }
             }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt("currentPosition", mCurrentPosition)
+        outState.putParcelableArrayList("questionsList", mQuestionsList)
+        outState.putInt("selectedOptionPosition", mSelectedOptionPosition)
+        outState.putInt("correctAnswers", mCorrectAnswers)
+        outState.putString("userName", mUserName)
+        outState.putInt("remainingCheats", mRemainingCheats )
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        mCurrentPosition = savedInstanceState.getInt("currentPosition")
+        @Suppress("DEPRECATION")
+        mQuestionsList = savedInstanceState.getParcelableArrayList("questionsList")
+        mSelectedOptionPosition = savedInstanceState.getInt("selectedOptionPosition", 0)
+        mCorrectAnswers = savedInstanceState.getInt("correctAnswers")
+        mUserName = savedInstanceState.getString("userName")
+        mRemainingCheats = savedInstanceState.getInt("remainingCheats")
+        tvCheat.text = "Cheat ($mRemainingCheats/3)"
+
+        setQuestion()
+
+        when(mSelectedOptionPosition) {
+            1-> selectedOptionView(tvOptionOne, 1)
+            2-> selectedOptionView(tvOptionTwo, 2)
+            3-> selectedOptionView(tvOptionThree, 3)
+            4-> selectedOptionView(tvOptionFour, 4)
         }
     }
 }

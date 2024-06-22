@@ -47,7 +47,7 @@
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/tv_cheats"
+        android:id="@+id/tv_cheats_used"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

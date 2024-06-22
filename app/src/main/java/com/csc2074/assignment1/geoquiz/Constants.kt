@@ -5,6 +5,7 @@ object Constants {
     const val USER_NAME: String = "user_name"
     const val TOTAL_QUESTIONS: String = "total_question"
     const val CORRECT_ANSWERS: String = "correct_answers"
+    const val CHEATS_USED: String = "cheats_used"
 
     fun getQuestions(): ArrayList<Question>{
         val questionsList = ArrayList<Question>()
@@ -17,7 +18,8 @@ object Constants {
             "Belgium",
             "Brazil",
             "Cambodia",
-            3
+            3,
+            0
             )
 
         val que2 = Question(
@@ -28,7 +30,8 @@ object Constants {
             "Denmark",
             "Ethiopia",
             "Finland",
-            1
+            1,
+            0
         )
 
         val que3 = Question(
@@ -39,7 +42,8 @@ object Constants {
             "Nigeria",
             "Honduras",
             "Iceland",
-            2
+            2,
+            0
         )
 
         val que4 = Question(
@@ -50,7 +54,8 @@ object Constants {
             "Kazakhstan",
             "Lebanon",
             "Canada",
-            4
+            4,
+            0
         )
 
         val que5 = Question(
@@ -61,7 +66,8 @@ object Constants {
             "Madagascar",
             "Nepal",
             "Oman",
-            1
+            1,
+            0
         )
 
         val que6 = Question(
@@ -72,7 +78,8 @@ object Constants {
             "Qatar",
             "Australia",
             "Romania",
-            3
+            3,
+            0
         )
 
         val que7 = Question(
@@ -83,7 +90,8 @@ object Constants {
             "Thailand",
             "Ukraine",
             "India",
-            4
+            4,
+            0
         )
 
         val que8 = Question(
@@ -94,7 +102,8 @@ object Constants {
             "Vietnam",
             "Yemen",
             "Zimbabwe",
-            1
+            1,
+            0
         )
 
         val que9 = Question(
@@ -105,7 +114,8 @@ object Constants {
             "Malaysia",
             "Brazil",
             "Canada",
-            2
+            2,
+            0
         )
 
         val que10 = Question(
@@ -116,7 +126,8 @@ object Constants {
             "India",
             "South Korea",
             "Japan",
-            3
+            3,
+            0
         )
 
         questionsList.add(que1)
