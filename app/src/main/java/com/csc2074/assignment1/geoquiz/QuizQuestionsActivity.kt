@@ -1,5 +1,6 @@
 package com.csc2074.assignment1.geoquiz
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
@@ -21,6 +22,7 @@ private var mCurrentPosition: Int = 1
 private var mQuestionsList: ArrayList<Question>? = null
 private var mSelectedOptionPosition: Int = 0
 private var mCorrectAnswers: Int = 0
+private var mUserName: String? = null
 
 
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
@@ -37,6 +39,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_questions)
+
+        mUserName = intent.getStringExtra(Constants.USER_NAME)
 
         tvQuestion = findViewById(R.id.tv_question)
         ivImage = findViewById(R.id.iv_image)
@@ -143,7 +147,12 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
                         mCurrentPosition <= mQuestionsList!!.size ->{
                             setQuestion()
                         }else ->{
-                            Toast.makeText(this, "You completed the quiz", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Quiz Completed, $mCorrectAnswers/${mQuestionsList!!.size}", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, ResultActivity::class.java)
+                            intent.putExtra(Constants.USER_NAME, mUserName)
+                            intent.putExtra(Constants.CORRECT_ANSWERS, mCorrectAnswers)
+                            intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionsList!!.size)
+                            startActivity(intent)
                         }
                     }
                 }else{
