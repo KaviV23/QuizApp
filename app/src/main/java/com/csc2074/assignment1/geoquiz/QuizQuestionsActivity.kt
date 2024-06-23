@@ -96,7 +96,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
         }
 
         progressBar.progress = mCurrentPosition
-        tvProgitgress.text = "$mCurrentPosition" + "/" + progressBar.max
+        tvProgress.text = "$mCurrentPosition" + "/" + progressBar.max
 
         tvQuestion.text = question.question
         ivImage.setImageResource(question.image)
