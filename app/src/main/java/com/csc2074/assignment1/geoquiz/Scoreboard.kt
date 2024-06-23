@@ -23,17 +23,17 @@ object Scoreboard {
     private fun retrieveFromDisk(context: Context) {
         val filePath = context.filesDir.path + "/scoreboard.json"
 
-        try {
+        mScoreboard = try {
             val scoreboardJson = File(filePath).readText()
             val gson = Gson()
             val scoreboardType = object : TypeToken<ArrayList<Array<String>>>() {}.type
-            mScoreboard = gson.fromJson<ArrayList<Array<String>>>(scoreboardJson, scoreboardType)
+            gson.fromJson<ArrayList<Array<String>>>(scoreboardJson, scoreboardType)
         } catch (e: IOException) {
             e.printStackTrace()
-            mScoreboard = ArrayList()
+            ArrayList()
         } catch (e: JsonSyntaxException) {
             e.printStackTrace()
-            mScoreboard = ArrayList()
+            ArrayList()
         }
     }
 

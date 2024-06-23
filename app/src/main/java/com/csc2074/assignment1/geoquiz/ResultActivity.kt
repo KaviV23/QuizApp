@@ -1,5 +1,6 @@
 package com.csc2074.assignment1.geoquiz
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ class ResultActivity : AppCompatActivity() {
     private lateinit var tvCheats: TextView
     private lateinit var btnFinish: Button
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)

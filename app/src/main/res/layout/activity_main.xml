@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="GeoQuiz"
+                android:text="@string/geoquiz"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -36,13 +36,14 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="150dp"
-                android:src="@drawable/logo" />
+                android:src="@drawable/logo"
+                android:contentDescription="@string/app_logo" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Enter your name"
+                android:text="@string/enter_your_name"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="16sp" />
 
@@ -55,7 +56,7 @@
                     android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Name"
+                    android:hint="@string/name"
                     android:padding="16dp"
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@color/teal_700"
-                android:text="Start Quiz"
+                android:text="@string/start_quiz"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
@@ -76,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="#DFDFDF"
-                android:text="Scoreboard"
+                android:text="@string/scoreboard"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 

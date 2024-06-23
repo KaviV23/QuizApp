@@ -11,15 +11,16 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="300px"
+        android:layout_height="100dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/clap" />
+        android:src="@drawable/clap"
+        android:contentDescription="@string/clap_emoji" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Congratulations!"
+        android:text="@string/congratulations"
         android:textColor="@color/teal_700"
         android:textStyle="bold"
         android:textSize="36sp"
@@ -33,7 +34,7 @@
         android:gravity="center"
         android:paddingBottom="10dp"
         android:textColor="@android:color/black"
-        android:text="Name"
+        android:text="@string/username"
         android:textStyle="bold"
         android:textSize="18sp" />
 
@@ -42,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Scored 0 out of 10"
+        android:text="@string/scored_0_out_of_10"
         android:textStyle="bold"
         android:textSize="16sp" />
 
@@ -51,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="0 Cheats Used"
+        android:text="@string/_0_cheats_used"
         android:textStyle="bold"
         android:textSize="16sp" />
 
@@ -60,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="Return to menu"
+        android:text="@string/return_to_menu"
         android:textColor="@android:color/white"
         android:background="@color/teal_700"/>
 

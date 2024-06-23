@@ -29,20 +29,20 @@
                 android:orientation="horizontal" >
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Scoreboard"
+                    android:text="@string/scoreboard"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
                     android:layout_weight="90"
-                    android:textSize="24dp" />
+                    android:textSize="24sp" />
 
                 <Button
                     android:id="@+id/btn_main_menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/teal_700"
-                    android:text="Back"
+                    android:text="@string/back"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 

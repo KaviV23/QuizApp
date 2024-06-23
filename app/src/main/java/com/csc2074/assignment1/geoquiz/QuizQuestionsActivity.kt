@@ -1,5 +1,6 @@
 package com.csc2074.assignment1.geoquiz
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -64,6 +65,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
         btnSubmit.setOnClickListener(this)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setQuestion() {
         val question = mQuestionsList!![mCurrentPosition-1]
 
@@ -71,7 +73,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
 
         if(question.selectedAnswer != 0) {
             tvCheat.setOnClickListener(null)
-            if(question!!.correctAnswer != question.selectedAnswer) {
+            if(question.correctAnswer != question.selectedAnswer) {
                 answerView(question.selectedAnswer, R.drawable.wrong_option_border_bg)
             }
             answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
@@ -88,15 +90,15 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
         }
 
         if(mCurrentPosition == mQuestionsList!!.size) {
-            btnSubmit.text = "Finish"
+            btnSubmit.text = getString(R.string.finish)
         } else {
-            btnSubmit.text = "Submit"
+            btnSubmit.text = getString(R.string.submit)
         }
 
         progressBar.progress = mCurrentPosition
-        tvProgress.text = "$mCurrentPosition" + "/" + progressBar.max
+        tvProgitgress.text = "$mCurrentPosition" + "/" + progressBar.max
 
-        tvQuestion.text = question!!.question
+        tvQuestion.text = question.question
         ivImage.setImageResource(question.image)
         tvOptionOne.text = question.optionOne
         tvOptionTwo.text = question.optionTwo
@@ -144,6 +146,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun cheat() {
         val question = mQuestionsList?.get(mCurrentPosition -1)
         if(mRemainingCheats != 0) {
@@ -151,7 +154,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
             mRemainingCheats--
             question!!.selectedAnswer = question.correctAnswer
             answerView(question.correctAnswer, R.drawable.correct_option_border_bg)
-            btnSubmit.text = "Next Question"
+            btnSubmit.text = getString(R.string.next_question)
             mSelectedOptionPosition = 0
 
             tvOptionOne.setOnClickListener(null)
@@ -204,7 +207,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
                     mSelectedOptionPosition = 0
                     mCurrentPosition --
                     setQuestion()
-                    btnSubmit.text = "Next Question"
+                    btnSubmit.text = getString(R.string.next_question)
                 }
             }
             R.id.tv_cheat-> {
@@ -250,9 +253,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
                     tvOptionFour.setOnClickListener(null)
 
                     if(mCurrentPosition == mQuestionsList!!.size) {
-                        btnSubmit.text = "Finish"
+                        btnSubmit.text = getString(R.string.finish)
                     } else {
-                        btnSubmit.text = "Next Question"
+                        btnSubmit.text = getString(R.string.next_question)
                     }
                     mSelectedOptionPosition = 0
                 }
@@ -271,6 +274,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
         outState.putInt("remainingCheats", mRemainingCheats )
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
