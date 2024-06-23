@@ -1,23 +1,18 @@
 package com.csc2074.assignment1.geoquiz
 
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 private var mCurrentPosition: Int = 1
 private var mQuestionsList: ArrayList<Question>? = null
@@ -35,6 +30,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
     private lateinit var tvOptionTwo: TextView
     private lateinit var tvOptionThree: TextView
     private lateinit var tvOptionFour: TextView
+    private lateinit var tvReset: TextView
     private lateinit var tvBack: TextView
     private lateinit var tvCheat: TextView
     private lateinit var btnSubmit: Button
@@ -53,6 +49,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
         tvOptionTwo = findViewById(R.id.tv_option_two)
         tvOptionThree = findViewById(R.id.tv_option_three)
         tvOptionFour = findViewById(R.id.tv_option_four)
+        tvReset = findViewById(R.id.tv_reset)
         tvBack = findViewById(R.id.tv_back)
         tvCheat = findViewById(R.id.tv_cheat)
         btnSubmit = findViewById(R.id.btn_submit)
@@ -61,6 +58,7 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
 
         setQuestion()
 
+        tvReset.setOnClickListener(this)
         tvBack.setOnClickListener(this)
         tvCheat.setOnClickListener(this)
         btnSubmit.setOnClickListener(this)
@@ -109,9 +107,9 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
     private fun defaultOptionView() {
         val options = ArrayList<TextView>()
         options.add(0, tvOptionOne)
-        options.add(0, tvOptionTwo)
-        options.add(0, tvOptionThree)
-        options.add(0, tvOptionFour)
+        options.add(1, tvOptionTwo)
+        options.add(2, tvOptionThree)
+        options.add(3, tvOptionFour)
 
         for (option in options) {
             option.setTextColor(Color.parseColor("#999999"))
@@ -183,6 +181,24 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
             R.id.tv_option_four-> {
                 selectedOptionView(tvOptionFour, 4)
             }
+            R.id.tv_reset->{
+                val builder = AlertDialog.Builder(this)
+                builder
+                    .setMessage("Reset Quiz?")
+                    .setNegativeButton("Cancel") {_, _->}
+                    .setPositiveButton("Reset") {_, _->
+                        mCurrentPosition= 1
+                        mQuestionsList = null
+                        mSelectedOptionPosition= 0
+                        mCorrectAnswers= 0
+                        mUserName = null
+                        mRemainingCheats= 3
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    }
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
+            }
             R.id.tv_back->{
                 if(mCurrentPosition > 1) {
                     mSelectedOptionPosition = 0
@@ -208,7 +224,14 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener{
                             intent.putExtra(Constants.CORRECT_ANSWERS, mCorrectAnswers)
                             intent.putExtra(Constants.TOTAL_QUESTIONS, mQuestionsList!!.size)
                             intent.putExtra(Constants.CHEATS_USED, 3-mRemainingCheats)
+                            mCurrentPosition= 1
+                            mQuestionsList = null
+                            mSelectedOptionPosition= 0
+                            mCorrectAnswers= 0
+                            mUserName = null
+                            mRemainingCheats= 3
                             startActivity(intent)
+                            finish()
                         }
                     }
                 }else{

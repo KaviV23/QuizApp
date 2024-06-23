@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="center_horizontal"
             android:padding="16dp">
 
             <TextView
@@ -32,10 +33,14 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                android:src="@drawable/logo" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:text="Enter your name"
                 android:textColor="@android:color/darker_gray"
@@ -63,17 +68,17 @@
                 android:background="@color/teal_700"
                 android:text="Start Quiz"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"></Button>
+                android:textSize="16sp" />
 
             <Button
+                android:id="@+id/btn_scoreboard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="#DFDFDF"
                 android:text="Scoreboard"
                 android:textColor="@android:color/black"
-                android:textSize="16sp">
-            </Button>
+                android:textSize="16sp" />
 
         </LinearLayout>
 

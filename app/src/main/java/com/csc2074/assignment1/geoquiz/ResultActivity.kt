@@ -2,12 +2,11 @@ package com.csc2074.assignment1.geoquiz
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class ResultActivity : AppCompatActivity() {
     private lateinit var tvName: TextView
@@ -33,8 +32,13 @@ class ResultActivity : AppCompatActivity() {
         tvScore.text = "Scored $correctAnswers out of $totalQuestions"
         tvCheats.text = "$cheatsUsed Cheats Used"
 
+        val scoreboardEntry: Array<String> = arrayOf("$username", "$correctAnswers/$totalQuestions", cheatsUsed.toString())
+
+        Scoreboard.addEntry(this, scoreboardEntry)
+
         btnFinish.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 }
